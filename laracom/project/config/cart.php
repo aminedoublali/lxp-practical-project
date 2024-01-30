@@ -68,5 +68,5 @@ return [
     'currency_symbol' => env('CURRENCY_SYMBOL', '円'),
 
     'shipping_cost' => 980,
-    'exchange_rate' => 140,
+    'jp_exchange_rate' => 140,
 ];
