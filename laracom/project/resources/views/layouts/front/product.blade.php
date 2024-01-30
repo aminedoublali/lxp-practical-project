@@ -30,8 +30,8 @@
         <div class="product-description">
             <h1 class="product-name">{{ $product->name }}</h1>
             <div class="price-conteiner">
-                <p class="font-price">{{ $product->price * config('cart.currency_cost') }}<small class="font-symbol">{{config('cart.currency_symbol')}}</small> </p>
-                <p class="font-postage"> ＋送料{{ config('cart.cost') }}{{config('cart.currency_symbol')}}</p>
+                <p class="font-price">{{ $product->price * config('cart.exchange_rate') }}<small class="font-symbol">{{config('cart.currency_symbol')}}</small> </p>
+                <p class="font-postage"> ＋送料{{ config('cart.shipping_cost') }}{{config('cart.currency_symbol')}}</p>
             </div>
             <p>SKU {{ $product->sku }}</p>
             <div class="description">{!! $product->description !!}</div>
