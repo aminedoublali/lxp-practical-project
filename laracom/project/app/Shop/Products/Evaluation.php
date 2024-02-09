@@ -9,8 +9,8 @@ class Evaluation extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['product_id', 'customer_id', 'evaluat', 'comment'];
-    
+    protected $fillable = ['product_id','customer_id','evaluat','comment'];
+
     public function products()
     {
         return $this->belongsTo(Product::class);

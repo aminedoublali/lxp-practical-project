@@ -15,7 +15,7 @@ class EvaluatedRequest extends BaseFormRequest
     {
         return [
             'product' => ['required', 'integer'],
-            'evaluat' => ['required', 'integer', 'between:1,5'],
+            'evaluat' => ['required', 'integer', 'min:1', 'max:5'],
             'comment' => ['required', 'string', 'max:100']
         ];
     }

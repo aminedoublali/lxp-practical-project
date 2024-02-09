@@ -124,7 +124,7 @@ class Product extends Model implements Buyable
      * @param string $term
      * @return Collection
      */
-    public function searchProduct(string $term) : Collection
+    public function searchProduct(string $term): Collection
     {
         return self::search($term)->get();
     }
@@ -145,8 +145,8 @@ class Product extends Model implements Buyable
         return $this->belongsTo(Brand::class);
     }
 
-    public function evaluations(){
+    public function evaluations()
+    {
         return $this->hasMany(Evaluation::class);
     }
-
 }

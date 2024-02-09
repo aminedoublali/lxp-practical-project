@@ -1,90 +1,137 @@
 <div class="row">
     <div class="col-md-6">
         @if (!empty($product->cover))
-        <ul id="thumbnails" class="col-md-4 list-unstyled">
-            <li>
-                <a href="javascript: void(0)">
-                    <img class="img-responsive img-thumbnail" src="{{ $product->cover }}" alt="{{ $product->name }}" />
-                </a>
-            </li>
-            @if (isset($images) && !$images->isEmpty())
-            @foreach ($images as $image)
-            <li>
-                <a href="javascript: void(0)">
-                    <img class="img-responsive img-thumbnail" src="{{ asset("storage/$image->src") }}" alt="{{ $product->name }}" />
-                </a>
-            </li>
-            @endforeach
-            @endif
-        </ul>
-        <figure class="text-center product-cover-wrap col-md-8">
-            <img id="main-image" class="product-cover img-responsive" src="{{ $product->cover }}?w=400" data-zoom="{{ $product->cover }}?w=1200">
-        </figure>
+            <ul id="thumbnails" class="col-md-4 list-unstyled">
+                <li>
+                    <a href="javascript: void(0)">
+                        <img class="img-responsive img-thumbnail" src="{{ $product->cover }}" alt="{{ $product->name }}" />
+                    </a>
+                </li>
+                @if (isset($images) && !$images->isEmpty())
+                    @foreach ($images as $image)
+                        <li>
+                            <a href="javascript: void(0)">
+                                <img class="img-responsive img-thumbnail" src="{{ asset("storage/$image->src") }}"
+                                    alt="{{ $product->name }}" />
+                            </a>
+                        </li>
+                    @endforeach
+                @endif
+            </ul>
+            <figure class="text-center product-cover-wrap col-md-8">
+                <img id="main-image" class="product-cover img-responsive" src="{{ $product->cover }}?w=400"
+                    data-zoom="{{ $product->cover }}?w=1200">
+            </figure>
         @else
-        <figure>
-            <img src="{{ asset('images/NoData.png') }}" alt="{{ $product->name }}" class="img-bordered img-responsive">
-        </figure>
+            <figure>
+                <img src="{{ asset('images/NoData.png') }}" alt="{{ $product->name }}"
+                    class="img-bordered img-responsive">
+            </figure>
         @endif
     </div>
     <div class="col-md-6">
         <div class="product-description">
-            <h1 class="product-name">{{ $product->name }}</h1>
-            <div class="price-conteiner">
-                <p class="font-price">{{ $product->price * config('cart.jp_exchange_rate') }}<small class="font-symbol">{{config('cart.currency_symbol')}}</small> </p>
-                <p class="font-postage"> ＋送料{{ config('cart.shipping_cost') }}{{config('cart.currency_symbol')}}</p>
+            <h1>{{ $product->name }}</h1>
+            <div class="product-total-price">
+                <span class="price">{{ number_format($product->price * config('cart.usd_to_jpy_rate')) }}<small>{{ config('cart.currency_symbol') }}</small></span>
+                <span class="shipping">+ 送料{{ config('cart.shipping_cost') }}{{ config('cart.currency_symbol') }}</span>
             </div>
-            <p>SKU {{ $product->sku }}</p>
+            <p>SKU：{{ $product->sku }}</p>
             <div class="description">{!! $product->description !!}</div>
             <hr>
             <div class="row">
                 <div class="col-md-12">
                     @include('layouts.errors-and-messages')
-                    <p class="font-quantity">数量</p>
                     <form action="{{ route('cart.store') }}" class="form-inline" method="post">
                         {{ csrf_field() }}
                         @if (isset($productAttributes) && !$productAttributes->isEmpty())
-                        <div class="form-group">
-                            <label for="productAttribute">Choose Combination</label> <br />
-                            <select name="productAttribute" id="productAttribute" class="form-control select2">
-                                @foreach ($productAttributes as $productAttribute)
-                                <option value="{{ $productAttribute->id }}">
-                                    @foreach ($productAttribute->attributesValues as $value)
-                                    {{ $value->attribute->name }} : {{ ucwords($value->value) }}
+                            <div class="form-group">
+                                <label for="productAttribute">Choose Combination</label> <br />
+                                <select name="productAttribute" id="productAttribute" class="form-control select2">
+                                    @foreach ($productAttributes as $productAttribute)
+                                        <option value="{{ $productAttribute->id }}">
+                                            @foreach ($productAttribute->attributesValues as $value)
+                                                {{ $value->attribute->name }} : {{ ucwords($value->value) }}
+                                            @endforeach
+                                            @if (!is_null($productAttribute->sale_price))
+                                                ({{ config('cart.currency_symbol') }}
+                                                {{ $productAttribute->sale_price }})
+                                            @elseif(!is_null($productAttribute->price))
+                                                ( {{ config('cart.currency_symbol') }} {{ $productAttribute->price }})
+                                            @endif
+                                        </option>
                                     @endforeach
-                                    @if (!is_null($productAttribute->sale_price))
-                                    ({{ config('cart.currency_symbol') }}
-                                    {{ $productAttribute->sale_price }})
-                                    @elseif(!is_null($productAttribute->price))
-                                    ( {{ config('cart.currency_symbol') }} {{ $productAttribute->price }})
-                                    @endif
-                                </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <hr>
+                                </select>
+                            </div>
+                            <hr>
                         @endif
+                        <p>数量</p>
                         <div class="form-group">
-                            <input type="text" class="form-control" name="quantity" id="quantity" placeholder="Quantity" value="{{ old('quantity') }}" />
+                            <input type="text" class="form-control" name="quantity" id="quantity"
+                                placeholder="数量を入力してください" value="{{ old('quantity') }}" />
                             <input type="hidden" name="product" value="{{ $product->id }}" />
                         </div>
-                        <button type="submit" class="btn btn-warning"><i class="fa fa-cart-plus"></i> カゴに追加
+                        <button type="submit" class="add-cart-btn btn btn-warning"><i class="fa fa-cart-plus"></i> かごに追加
                         </button>
                     </form>
+                    <div class="evaluate">
+						<div id="evaluations">
+							@if(isset($evaluation))
+								@foreach($evaluation as $evaluate)
+									<div>
+										<p>{!! $evaluate->evaluateStar !!}</p>
+										<p>{{$evaluate->comment}}</p>
+									</div>
+                            	@endforeach
+							@endif
+						</div>
+						@if(auth()->check())
+							@if(session('success'))
+								<marker>評価とコメントを登録しました</marker>
+							@else
+								<form action="{{ route('evaluation.store') }}" class="form-inline evaluation-input-wrapper" id="evaluate_submit" method="post">
+									{{ csrf_field() }}
+                            		<input type="hidden" name="product" value="{{ $product->id }}" />
+									<div>
+										<label for="evaluate_value">評価</label>
+										<input type="number" name="evaluate" id="evaluate_value" min="1" max="5" value="5">
+									</div>
+									<div>
+										<label for="evaluate_comment">コメント</label>
+										<input type="text" name="comment" id="evaluate_comment" placeholder="コメントを入力してください">
+									</div>
+                    			    <button type="submit" class="btn btn-warning" id="evaluate_button" disabled>登録</button>
+								</form>
+							@endif
+						@endif
+					</div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 @section('js')
-<script type="text/javascript">
-    $(document).ready(function() {
-        var productPane = document.querySelector('.product-cover');
-        var paneContainer = document.querySelector('.product-cover-wrap');
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var productPane = document.querySelector('.product-cover');
+            var paneContainer = document.querySelector('.product-cover-wrap');
 
-        new Drift(productPane, {
-            paneContainer: paneContainer,
-            inlinePane: false
+            new Drift(productPane, {
+                paneContainer: paneContainer,
+                inlinePane: false
+            });
+            $("#evaluate_value").on("input",valueatChangeEvent);
+			$("#evaluate_comment").on("input",valueatChangeEvent);
+			function valueatChangeEvent(e) {
+				$("#evaluate_button").prop("disabled", !getValueatEnable());
+			}
+			function getValueatEnable() {
+				return $("#evaluate_value").val()&&
+				$("#evaluate_value").val() > 0&&
+				$("#evaluate_value").val() <= 5&&
+				$("#evaluate_comment").val().length > 0&&
+				$("#evaluate_comment").val().length <= 100;
+			}
         });
-    });
-</script>
+    </script>
 @endsection

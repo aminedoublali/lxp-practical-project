@@ -98,6 +98,7 @@ Route::namespace('Front')->group(function () {
         Route::resource('customer.address', 'CustomerAddressController');
     });
     Route::resource('cart', 'CartController');
+    Route::post("evaluation", 'EvaluationController@store')->name('evaluation.store')->middleware('checkLogin');
     Route::get("category/{slug}", 'CategoryController@getCategory')->name('front.category.slug');
     Route::get("search", 'ProductController@search')->name('search.product');
     Route::get("{product}", 'ProductController@show')->name('front.get.product');
