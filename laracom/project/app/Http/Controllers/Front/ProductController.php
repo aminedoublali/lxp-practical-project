@@ -53,13 +53,30 @@ class ProductController extends Controller
         $product = $this->transformProduct($product);
         $images = $product->images()->get();
         $category = $product->categories()->first();
+        $evaluation = $product->evaluations()->latest()->limit(10)->get();
+        $evaluation = $evaluation->map(function ($item) {
+            $item['evaluatStar'] = $this->evaluatToStar($item['evaluat']);
+            return $item;
+        });
         $productAttributes = $product->attributes;
 
         return view('front.products.product', compact(
             'product',
             'images',
             'productAttributes',
-            'category'
+            'category',
+            'evaluation'
         ));
+    }
+    public function evaluatToStar($ev)
+    {
+        $stars = "";
+        for ($i = 0; $i < $ev; $i++) {
+            $stars .= "★";
+        }
+        for ($i = 0; $i < 5 - $ev; $i++) {
+            $stars .= "☆";
+        }
+        return $stars;
     }
 }
