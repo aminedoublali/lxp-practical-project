@@ -7,6 +7,7 @@
 /public/css/app.css
 /public/js/app.js
 /storage/*.key
+/public/mix-manifest.json
 /vendor
 .idea/
 .vagrant/
