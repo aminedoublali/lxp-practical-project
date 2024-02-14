@@ -270,11 +270,16 @@ li.menubar-cart a {
 }
 .form-inline{
     display: flex;
+    align-items: flex-end;
 }
 .evaluat-num{
     display: flex;
     flex-direction: column;
     margin: 0 20px;
+}
+.cart_wrappar{
+    display: flex;
+    flex-direction: column;
 }
 .evaluat-comment{
     display: flex;
@@ -282,10 +287,19 @@ li.menubar-cart a {
     margin: 0 20px;
     
 }
-.btn-warning{
-    width: 100px;
+#evaluat_button{
+    width: 70px;
     height: 50px;
     display: block;
+    background-color: #ff6700;
+}
+#evaluat_value{
+    border: 1px solid #000000;
+    padding: 10px 25px;
+}
+#evaluat_comment{
+    border: 1px solid #000000;
+    padding: 10px 25px;
 }
 .font-price{
     font-size: 36px;

@@ -43,7 +43,7 @@
                 <div class="col-md-12">
                     @include('layouts.errors-and-messages')
                     <form action="{{ route('cart.store') }}" class="form-inline" method="post">
-                        <p class="font-quantity">数量</p>
+                      
                         {{ csrf_field() }}
                         @if (isset($productAttributes) && !$productAttributes->isEmpty())
                             <div class="form-group">
@@ -66,11 +66,14 @@
                             </div>
                             <hr>
                         @endif
+                    <div class="cart_wrappar">
+                        <p class="font-quantity">数量</p>
                         <div class="form-group">
                             <input type="text" class="form-control" name="quantity" id="quantity"
                                 placeholder="Quantity" value="{{ old('quantity') }}" />
                             <input type="hidden" name="product" value="{{ $product->id }}" />
                         </div>
+                    </div>
                         <button type="submit" class="btn btn-warning"><i class="fa fa-cart-plus"></i> かごに追加</button>
                     </form>
                     <div class="evaluat">
@@ -102,7 +105,7 @@
                                         <input type="text" name="comment" id="evaluat_comment"
                                             placeholder="コメントを入力してください">
                                     </div>
-                                    <button type="submit" class="btn btn-warning" id="evaluat_button"
+                                    <button type="submit" class=" btn btn-warning" id="evaluat_button"
                                         disabled>登録</button>
                                 </form>
                             @endif
