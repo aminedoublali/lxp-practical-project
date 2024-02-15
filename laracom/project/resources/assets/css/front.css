@@ -259,6 +259,48 @@ li.menubar-cart a {
     padding: 20px 0;
   
 }
+.star{
+    color: #ffca00;
+    margin: 20px 0;
+}
+.evaluation-text{
+    border: 1px solid black;
+    margin: 20px 0;
+    padding: 10px;
+}
+.form-inline{
+    display: flex;
+    align-items: flex-end;
+}
+.evaluat-num{
+    display: flex;
+    flex-direction: column;
+    margin: 0 20px;
+}
+.cart_wrappar{
+    display: flex;
+    flex-direction: column;
+}
+.evaluat-comment{
+    display: flex;
+    flex-direction: column;
+    margin: 0 20px;
+    
+}
+#evaluat_button{
+    width: 70px;
+    height: 50px;
+    display: block;
+    background-color: #ff6700;
+}
+#evaluat_value{
+    border: 1px solid #000000;
+    padding: 10px 25px;
+}
+#evaluat_comment{
+    border: 1px solid #000000;
+    padding: 10px 25px;
+}
 .font-price{
     font-size: 36px;
     font-weight: 700;
