@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 
 use Illuminate\Support\Facades\DB;
 
-class EvaluationSeeder extends Seeder
+class Evaluations extends Seeder
 {
     /**
      * Run the database seeds.
