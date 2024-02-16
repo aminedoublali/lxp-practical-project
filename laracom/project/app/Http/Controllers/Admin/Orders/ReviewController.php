@@ -28,13 +28,13 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        $reviews = Evaluation::all();
+        $evaluations = Evaluation::all();
 
-        $reviews = $reviews->map(function ($item) {
+        $evaluations = $evaluations->map(function ($item) {
             $item['customer_name'] = $this->customerRepo->findCustomerById($item['customer_id'])->name;
             return $item;
         });
 
-        return view('admin.review.list', ['reviews' => $reviews]);
+        return view('admin.review.list', ['reviews' => $evaluations]);
     }
 }
