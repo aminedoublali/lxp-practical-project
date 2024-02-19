@@ -35,6 +35,6 @@ class ReviewController extends Controller
             return $item;
         });
 
-        return view('admin.review.list', ['reviews' => $evaluations]);
+        return view('admin.review.list', ['evaluations' => $evaluations]);
     }
 }
