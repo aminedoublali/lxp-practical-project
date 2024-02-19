@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-
 use Illuminate\Support\Facades\DB;
+use Faker\Factory as Faker; // Fakerのインポートを追加
 
 class EvaluationSeeder extends Seeder
 {
@@ -15,28 +15,22 @@ class EvaluationSeeder extends Seeder
      */
     public function run()
     {
-        // デモデータの作成
-        $evaluation = [
-            [
-                'product_id' => 1,
-                'customer_id' => 1,
-                'evaluat' => 5,
-                'comment' => 'This product is amazing!',
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            [
-                'product_id' => 2,
-                'customer_id' => 2,
-                'evaluat' => 4,
-                'comment' => 'Great product, but could be improved.',
-                'created_at' => now(),
-                'updated_at' => now()
-            ],
-            // 他のデモデータを追加する場合はここに追加します
-        ];
+        $faker = Faker::create(); 
+
+        $evaluations = []; 
+
+        for ($i = 0; $i < 10; $i++) {
+            $evaluations[] = [
+                'product_id' => $faker->numberBetween(1, 50), // 1から50の間の商品ID
+                'customer_id' => $faker->numberBetween(1, 50), // 1から50の間の顧客ID
+                'evaluat' => $faker->numberBetween(1, 5), // 1から5の間の評価
+                'comment' => $faker->sentence, // ランダムなコメント
+                'created_at' => now(), // 現在の日付と時間
+                'updated_at' => now(), // 現在の日付と時間
+            ];
+        }
 
         // デモデータの挿入
-        DB::table('evaluations')->insert($evaluation);
+        DB::table('evaluations')->insert($evaluations);
     }
 }
