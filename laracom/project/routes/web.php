@@ -40,6 +40,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['employee'], 'as' => 'admin.
                 Route::get('remove-image-category', 'CategoryController@removeImage')->name('category.remove.image');
             });
             Route::namespace('Orders')->group(function () {
+                Route::resource('evaluation', 'EvaluationController');
                 Route::resource('orders', 'OrderController');
                 Route::resource('order-statuses', 'OrderStatusController');
                 Route::get('orders/{id}/invoice', 'OrderController@generateInvoice')->name('orders.invoice.generate');
@@ -99,6 +100,7 @@ Route::namespace('Front')->group(function () {
     });
     Route::resource('cart', 'CartController');
     Route::post("evaluation", 'EvaluationController@store')->name('evaluation.store');
+
     Route::get("category/{slug}", 'CategoryController@getCategory')->name('front.category.slug');
     Route::get("search", 'ProductController@search')->name('search.product');
     Route::get("{product}", 'ProductController@show')->name('front.get.product');
