@@ -99,7 +99,7 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ route('admin.review.index') }}"><i class="fa fa-circle-o"></i>レビュー一覧</a></li>
+                    <li><a href="{{ route('admin.evaluation.index') }}"><i class="fa fa-circle-o"></i>レビュー一覧</a></li>
                 </ul>
             </li>
             <li class="treeview @if(request()->segment(2) == 'orders') active @endif">
